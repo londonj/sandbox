@@ -14,74 +14,84 @@ SCREEN_Y=200
 BLOCKSIZE=10
 FPS=10
 
+font=pygame.font.SysFont(None,25)
+
+def msg(msg,color):
+    screen_text = font.render(msg,True,color)
+    gameDisplay.blit(screen_text,[SCREEN_X/2,SCREEN_Y/2])
+    pygame.display.update()
 
 gameDisplay = pygame.display.set_mode((SCREEN_X,SCREEN_Y))
 pygame.display.set_caption('Slither')
 
 
 
-gameExit=False
-lead_x = SCREEN_X/2
-lead_y = SCREEN_Y/2
-lead_x_change=0
-lead_y_change=0
-
 clock=pygame.time.Clock()
 
 
 
+def GameLoop():
 
-while not gameExit:
-    print('lead_x=',lead_x,'lead_y=',lead_y)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-                gameExit = True
+    gameExit=False
+    lead_x = SCREEN_X/2
+    lead_y = SCREEN_Y/2
+    lead_x_change=0
+    lead_y_change=0
 
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                lead_x_change = -2
-                lead_y_change = 0
+    while not gameExit:
+        print('lead_x=',lead_x,'lead_y=',lead_y)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                    gameExit = True
 
-            elif event.key == pygame.K_RIGHT:
-                lead_x_change = 2
-                lead_y_change = 0
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    lead_x_change = -2
+                    lead_y_change = 0
 
-            elif event.key == pygame.K_DOWN:
-                lead_y_change = 2
-                lead_x_change = 0
+                elif event.key == pygame.K_RIGHT:
+                    lead_x_change = 2
+                    lead_y_change = 0
 
-            elif event.key == pygame.K_UP:
-                lead_y_change = -2
-                lead_x_change = 0
+                elif event.key == pygame.K_DOWN:
+                    lead_y_change = 2
+                    lead_x_change = 0
 
-            elif event.key == pygame.K_ESCAPE:
-                gameExit = True
+                elif event.key == pygame.K_UP:
+                    lead_y_change = -2
+                    lead_x_change = 0
 
-    if lead_x >= SCREEN_X:
-        lead_x = 1
+                elif event.key == pygame.K_ESCAPE:
+                    msg('Test',BLUE)
+                    time.sleep(5)
+                    gameExit = True
+
+        if lead_x >= SCREEN_X:
+            lead_x = 1
 
 
-    if lead_x <= 0:
-        lead_x = SCREEN_X
+        if lead_x <= 0:
+            lead_x = SCREEN_X
 
-    if lead_y >= SCREEN_Y:
-        lead_y=1
+        if lead_y >= SCREEN_Y:
+            lead_y=1
 
-    if lead_y <= 0:
-        lead_y = SCREEN_Y
+        if lead_y <= 0:
+            lead_y = SCREEN_Y
 
-    lead_x += lead_x_change
-    lead_y += lead_y_change
+        lead_x += lead_x_change
+        lead_y += lead_y_change
 
-    gameDisplay.fill(WHITE)
-    pygame.draw.rect(gameDisplay,RED,[lead_x,lead_y,BLOCKSIZE,BLOCKSIZE])
-    #pygame.draw.circle(gameDisplay,BLUE,[350,250,10,10])
-    #ameDisplay.fill(BLUE,rect=(200,200,30,30))
+        gameDisplay.fill(WHITE)
+        pygame.draw.rect(gameDisplay,RED,[lead_x,lead_y,BLOCKSIZE,BLOCKSIZE])
+        #pygame.draw.circle(gameDisplay,BLUE,[350,250,10,10])
+        #ameDisplay.fill(BLUE,rect=(200,200,30,30))
 
-    pygame.display.update()
-    clock.tick(FPS)
+        pygame.display.update()
+        clock.tick(FPS)
 
-pygame.quit()
+    pygame.quit()
 
-quit()
+    quit()
 
+GameLoop()
