@@ -3,7 +3,16 @@ from pygame.locals import *
 import time
 
 def collide(x1, x2, y1, y2, w1, w2, h1, h2):
+	#x1=first block on the x
+	#x2=last block on the x
+	#y1=first block on the y
+	#y2=last block on the y
+	#w1=width
+	#w2=width
+	#h1=height
+	#h2=height
 
+	print ('x1=',x1,'x2=',x2,'y1=',y1,'y2=',y2,'w1=',w1,'w2=',w2,'h1=',h1,'h2=',h2)
 	if x1+w1>x2 and x1<x2+w2 and y1+h1>y2 and y1<y2+h2:
 		return True
 	else:
@@ -32,13 +41,16 @@ score = 0
 
 
 #Set the position of the 'apple'
-applepos = (random.randint(0, 590), random.randint(0, 590))
+applepos = (random.randint(100, 400), random.randint(100, 400))
 
 #Initialize pgame
 pygame.init()
 
+SCREEN_X=500
+SCREEN_Y=500
+
 #Set the screen size
-s=pygame.display.set_mode((600, 600))
+s=pygame.display.set_mode((SCREEN_X,SCREEN_Y))
 
 #Set the caption of the screen
 pygame.display.set_caption('Snake')
@@ -66,35 +78,46 @@ while True:
 	clock.tick(5) #Ensures we don't go over 10 FPS
 	print (dirs)
 
-	for e in pygame.event.get(): #Trap any events
+	for event in pygame.event.get(): #Trap any events
 
-		if e.type == QUIT: #The x on the window
+		if event.type == QUIT: #The x on the window
 			sys.exit(0)
-		elif e.type == KEYDOWN: #Detects a keypress
-			if e.key == K_UP and dirs != 0: #If you press up key and we aren't going down, then go up
+		#dirs indicates direction - 0=down, 1=right, 2=up, 3=left
+		elif event.type == KEYDOWN: #Detects a keypress
+			if event.key == K_SPACE:
+				time.sleep(10)
+			if event.key == K_UP and dirs != 0: #If you press up key and we aren't going down, then go up
 				dirs = 2 #2=up
-			elif e.key == K_DOWN and dirs != 2:
+			elif event.key == K_DOWN and dirs != 2: #If you press down key aand we aren't going up, then ok
 				dirs = 0 #0=down
-			elif e.key == K_LEFT and dirs != 1:
+			elif event.key == K_LEFT and dirs != 1: #If you press the left key and we aren't going right, then ok
 				dirs = 3 #3=left
-			elif e.key == K_RIGHT and dirs != 3:
+			elif event.key == K_RIGHT and dirs != 3: #If you press the right key and we aren't going left, then ok
 				dirs = 1 #1=right
 
-	i = len(xs)-1 #How many segments the snake has
+
+
+
+
+	i = len(xs)-1 #How many segments the snake has on the X axis
 
 	print ('i=',i)
 
 	while i >= 2:
+		#args are: first block of snake on the x, last block on the x, first on the y, last on the y
+		# and then the size of each block (20x20 pixels)
 		if collide(xs[0], xs[i], ys[0], ys[i], 20, 20, 20, 20):
+			print ('collided,i=',i)
 			die(s, score)
 		i-= 1
 
 	if collide(xs[0], applepos[0], ys[0], applepos[1], 20, 10, 20, 10):
 		score+=1;xs.append(700)
 		ys.append(700)
-		applepos=(random.randint(0,590),random.randint(0,590))
+		applepos=(random.randint(0,SCREEN_X-50),random.randint(0,SCREEN_Y-50)
 
-	if xs[0] < 0 or xs[0] > 580 or ys[0] < 0 or ys[0] > 580:
+	if xs[0] < 0 or xs[0] > SCREEN_X-20 or ys[ 0] < 0 or ys[0] > SCREEN_Y-20: #If the head of the snake hits edge of screen
+		print ('hit edge of screen')
 		die(s, score)
 
 	i = len(xs)-1
@@ -125,7 +148,7 @@ while True:
 
 
 
-	time.sleep(1)
+	#time.sleep(1)
 	s.fill((255, 255, 255))
 
 	for i in range(0, len(xs)):
