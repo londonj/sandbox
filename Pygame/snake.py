@@ -13,7 +13,13 @@ def collide(x1, x2, y1, y2, w1, w2, h1, h2):
 	#h2=height
 
 	print ('x1=',x1,'x2=',x2,'y1=',y1,'y2=',y2,'w1=',w1,'w2=',w2,'h1=',h1,'h2=',h2)
-	if x1+w1>x2 and x1<x2+w2 and y1+h1>y2 and y1<y2+h2:
+
+	#How to determine if there is a collision
+	#1. If the first block of the snake
+	if x1+w1>x2 \
+	and x1<x2+w2 \
+	and y1+h1>y2 \
+	and y1<y2+h2:
 		return True
 	else:
 		return False
@@ -40,14 +46,16 @@ DIRECTION='down'
 score = 0
 
 
-#Set the position of the 'apple'
-applepos = (random.randint(100, 400), random.randint(100, 400))
-
+#
 #Initialize pgame
 pygame.init()
 
 SCREEN_X=500
 SCREEN_Y=500
+
+#Set the position of the 'apple'
+applepos = (random.randint(100,SCREEN_X-100), random.randint(100,SCREEN_Y-100))
+
 
 #Set the screen size
 s=pygame.display.set_mode((SCREEN_X,SCREEN_Y))
@@ -57,12 +65,16 @@ pygame.display.set_caption('Snake')
 
 #Surface is the pygame object for representing images
 #Create a 10pxlx10pxl object
-appleimage = pygame.Surface((10, 10))
+
+APPLE_PIXELS_X=10
+APPLE_PIXELS_Y=10
+
+appleimage = pygame.Surface((APPLE_PIXELS_X,APPLE_PIXELS_Y))
 
 #Make it green
 appleimage.fill((0, 255, 0))
 
-#Now, create the snake, a 20x20 object
+#Now, create the snake segment, a 20x20 pixel block
 img = pygame.Surface((20, 20))
 
 #Make the snake red
@@ -95,28 +107,37 @@ while True:
 			elif event.key == K_RIGHT and dirs != 3: #If you press the right key and we aren't going left, then ok
 				dirs = 1 #1=right
 
+	red=random.randint(200,255)
+	img.fill((red,0,0))
 
-
-
+	green=random.randint(200,255)
+	appleimage.fill((0, green, 0))
 
 	i = len(xs)-1 #How many segments the snake has on the X axis
 
 	print ('i=',i)
 
+	#If the snake runs into himself (bad)
 	while i >= 2:
 		#args are: first block of snake on the x, last block on the x, first on the y, last on the y
-		# and then the size of each block (20x20 pixels)
+		# and then the size of each block of the snake (20x20 pixels)
 		if collide(xs[0], xs[i], ys[0], ys[i], 20, 20, 20, 20):
 			print ('collided,i=',i)
 			die(s, score)
 		i-= 1
 
-	if collide(xs[0], applepos[0], ys[0], applepos[1], 20, 10, 20, 10):
-		score+=1;xs.append(700)
-		ys.append(700)
-		applepos=(random.randint(0,SCREEN_X-50),random.randint(0,SCREEN_Y-50)
 
-	if xs[0] < 0 or xs[0] > SCREEN_X-20 or ys[ 0] < 0 or ys[0] > SCREEN_Y-20: #If the head of the snake hits edge of screen
+		#if the snake runs into the apple (good)
+		#args are: first block of snake on the x, x pos of the apple, y pos of the apple
+		# and then the size of width of the snake, width of the apple, height of the snake, height of the apple
+	if collide(xs[0], applepos[0], ys[0], applepos[1], 20, APPLE_PIXELS_X, 20, APPLE_PIXELS_Y):
+		score+=1
+		xs.append(700) #Add to the x-length of the snake
+		ys.append(700) #Add to the y-length of the snake
+		applepos=(random.randint(0,SCREEN_X-50),random.randint(0,SCREEN_Y-50))
+
+	if xs[0] < 0 or xs[0] > SCREEN_X-20 or ys[ 0] < 0 or ys[0] > SCREEN_Y-20:
+		#If the head of the snake hits edge of screen
 		print ('hit edge of screen')
 		die(s, score)
 
