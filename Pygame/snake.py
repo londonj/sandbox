@@ -24,14 +24,20 @@ def collide(x1, x2, y1, y2, w1, w2, h1, h2):
 		return False
 
 
+def display(screen,text):
+	print ('text=',text)
+	f=pygame.font.SysFont('Arial', 30)
+	t=f.render('this is a test', True, (0, 0, 0))
+	screen.blit(t, (SCREEN_X/2, SCREEN_Y/2))
+	pygame.display.update()
+	pygame.time.wait(2000)
 
 def die(screen, score):
 	f=pygame.font.SysFont('Arial', 30);t=f.render('Your score was: '+str(score), True, (0, 0, 0))
-	screen.blit(t, (10, 270))
+	screen.blit(t, (SCREEN_X/2, SCREEN_Y/2))
 	pygame.display.update()
 	pygame.time.wait(2000)
 	sys.exit(0)
-
 
 
 #dirs indicates direction - 0=down, 1=right, 2=up, 3=left
@@ -45,8 +51,8 @@ score = 0
 #Initialize pgame
 pygame.init()
 
-SCREEN_X=500
-SCREEN_Y=500
+SCREEN_X=300
+SCREEN_Y=300
 
 #Set the position of the 'apple'
 applepos = (random.randint(100,SCREEN_X-100), random.randint(100,SCREEN_Y-100))
@@ -61,12 +67,13 @@ pygame.display.set_caption('Snake')
 #Surface is the pygame object for representing images
 #Create a 10pxlx10pxl object
 
-APPLE_WIDTH=10
-APPLE_HEIGHT=10
-appleimage = pygame.Surface((APPLE_WIDTH,APPLE_HEIGHT))
+APPLE_WIDTH=20
+APPLE_HEIGHT=20
+#appleimage = pygame.Surface((APPLE_WIDTH,APPLE_HEIGHT))
+appleimage=img=pygame.image.load ('apple.png')
 
 #Make it green
-appleimage.fill((0, 255, 0))
+#appleimage.fill((0, 255, 0))
 
 #Now, create the snake segment, a 20x20 pixel block
 SNAKE_WIDTH=10
@@ -74,12 +81,11 @@ SNAKE_HEIGHT=10
 img = pygame.Surface((SNAKE_WIDTH,SNAKE_HEIGHT))
 
 
-SNAKE_X_START=300
-
+SNAKE_X_START=SCREEN_X/2
 #The initial X position of each segment of the snake
 xs = [SNAKE_X_START, SNAKE_X_START, SNAKE_X_START, SNAKE_X_START, SNAKE_X_START]
 
-SNAKE_Y_START=300
+SNAKE_Y_START=SCREEN_Y/2
 #The initial Y position of each segment of the snake
 ys = [SNAKE_Y_START, SNAKE_Y_START-SNAKE_WIDTH, SNAKE_Y_START-(SNAKE_WIDTH*2), SNAKE_Y_START-(SNAKE_WIDTH*3), SNAKE_Y_START-(SNAKE_WIDTH*4	)]
 
@@ -132,8 +138,8 @@ while True:
 	red=random.randint(200,255)
 	img.fill((red,0,0))
 
-	green=random.randint(200,255)
-	appleimage.fill((0, green, 0))
+	#green=random.randint(200,255)
+	#appleimage.fill((0, green, 0))
 
 
 
@@ -158,10 +164,21 @@ while True:
 		score+=1
 
 		# Add another segment
-		segment=len(xs)+20
-		print ('segment=',segment)
-		xs.append(700) #Add to the x-length of the snake
-		ys.append(700) #Add to the y-length of the snake
+		# segment=xs[len(xs)-1]+20
+		# print ('segment=',segment)
+		# print ('xs[0]=',xs[0])
+		# print ('xs[1]=',xs[1])
+		# print ('xs[2]=',xs[2])
+		# print ('xs[3]=',xs[3])
+		# print ('xs[4]=',xs[4])
+
+		#time.sleep(3)
+		# We are going to add a segment to the snake (add an element to each list, x and y)
+		# The number doesn't really matter, it's just a placeholder
+		#The element gets changed dynamically when the snake moves
+
+		xs.append(500) #Add to the x-length of the snake
+		ys.append(500) #Add to the y-length of the snake
 		applepos=(random.randint(0,SCREEN_X-50),random.randint(0,SCREEN_Y-50))
 
 
@@ -175,13 +192,12 @@ while True:
 	elif ys[0] < 0:
 		ys[0] = SCREEN_Y
 
-
-
+	print ('xs[0]=',xs[0])
+	print ('ys[0]=',ys[0])
 
 
 	#This is what moves the body
 	#Each segment is moved
-
 	i = len(xs)-1
 	print ('i=',i)
 	while i >= 1:
@@ -229,9 +245,14 @@ while True:
 	t=f.render(str(score), True, (0, 0, 0))
 	s.blit(t, (10, 10))
 
+
 	#Put it all on the screen
 	pygame.display.update()
-					
+
+
+
+
+
 					
 			
 
