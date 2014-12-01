@@ -17,7 +17,7 @@ def collide(x1, x2, y1, y2, w1, w2, h1, h2):
 	#How to determine if there is a collision
 	#1. If the first block of the snake plus the width of the snake is greater than the position of the last block
 
-	print ('If x1(',x1,')+w1(',w1,')>x2(',x2,') and x2(',x2,')+w2(',w2,')>x1(',x1,')')
+	#print ('If x1(',x1,')+w1(',w1,')>x2(',x2,') and x2(',x2,')+w2(',w2,')>x1(',x1,')')
 	if x1+w1>x2 and x1<x2+w2 and y1+h1>y2 and y1<y2+h2:
 		return True
 	else:
@@ -106,18 +106,7 @@ cnt=1
 
 
 while True:
-	print ('in loop',cnt)
-	cnt +=1
-	if score>3:
-		fps=6
-	if score>4:
-		fps=7
-	if score>5:
-		fps=8
-	if score>6:
-		fps=9
-	if score>7:
-		fps=10
+	fps=5+(score)
 
 	print ('fps=',fps)
 
@@ -150,18 +139,13 @@ while True:
 
 	i = len(xs)-1 #How many segments the snake has on the X axis
 	print ('i=',i)
-
-
-
-	print ('before collide loop...')
 	#If the snake runs into himself (bad)
-	# while i >= 2:
+	while i >= 2:
 	# 	#args are: first block of snake on the x, last block on the x, first on the y, last on the y
 	# 	# and then the size of each block of the snake (20x20 pixels)
-	# 	if collide(xs[0], xs[i], ys[0], ys[i], SNAKE_WIDTH, SNAKE_WIDTH, SNAKE_HEIGHT, SNAKE_HEIGHT):
-	# 		print ('collided,i=',i)
-	# 		die(s, score)
-	# 		i-= 1
+		if collide(xs[0], xs[i], ys[0], ys[i], SNAKE_WIDTH, SNAKE_WIDTH, SNAKE_HEIGHT, SNAKE_HEIGHT):
+			die(s, score)
+		i=i-1
 
 
 
@@ -172,6 +156,10 @@ while True:
 	# and then the size of width of the snake, width of the apple, height of the snake, height of the apple
 	if collide(xs[0], applepos[0], ys[0], applepos[1], SNAKE_WIDTH, APPLE_WIDTH, SNAKE_HEIGHT, APPLE_HEIGHT):
 		score+=1
+
+		# Add another segment
+		segment=len(xs)+20
+		print ('segment=',segment)
 		xs.append(700) #Add to the x-length of the snake
 		ys.append(700) #Add to the y-length of the snake
 		applepos=(random.randint(0,SCREEN_X-50),random.randint(0,SCREEN_Y-50))
@@ -189,12 +177,19 @@ while True:
 
 
 
-	i = len(xs)-1
 
+
+	#This is what moves the body
+	#Each segment is moved
+
+	i = len(xs)-1
+	print ('i=',i)
 	while i >= 1:
 		xs[i] = xs[i-1]
 		ys[i] = ys[i-1]
+		#print ('xs[i]=',xs[i])
 		i -= 1
+
 
 	if dirs==0:
 		ys[0] += SNAKE_HEIGHT
@@ -212,6 +207,8 @@ while True:
 	# print ('xs[2]=',xs[2])
 	# print ('xs[3]=',xs[3])
 	# print ('xs[4]=',xs[4])
+	# print ('xs[5]=',xs[5])
+	# print ('xs[6]=',xs[6])
 
 
 	# print ('ys[0]=',ys[0])
@@ -220,6 +217,7 @@ while True:
 	# print ('ys[3]=',ys[3])
 	# print ('ys[4]=',ys[4])
 
+	#Clear the screen between each animation
 	s.fill((255, 255, 255))
 
 	#Draw the snake
