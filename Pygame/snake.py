@@ -179,18 +179,20 @@ while True:
 
 		xs.append(500) #Add to the x-length of the snake
 		ys.append(500) #Add to the y-length of the snake
+		w,h=appleimage.get_size()
+		appleimage=pygame.transform.scale(appleimage,(w+5,h+5))
 		applepos=(random.randint(0,SCREEN_X-50),random.randint(0,SCREEN_Y-50))
 
 
 	if xs[0]>SCREEN_X:
 		xs[0]=0
 	elif xs[0] <0:
-		xs[0]=SCREEN_X
+		xs[0]=SCREEN_X-10
 
 	if ys[0] > SCREEN_Y:
 		ys[0] = 0
 	elif ys[0] < 0:
-		ys[0] = SCREEN_Y
+		ys[0] = SCREEN_Y-10
 
 	print ('xs[0]=',xs[0])
 	print ('ys[0]=',ys[0])
