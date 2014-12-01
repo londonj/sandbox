@@ -34,14 +34,12 @@ def die(screen, score):
 
 
 
-
 #dirs indicates direction - 0=down, 1=right, 2=up, 3=left
 dirs = 0
 DIRECTION='down'
 
 #Set the score to zero
 score = 0
-
 
 #
 #Initialize pgame
@@ -99,29 +97,31 @@ f = pygame.font.SysFont('Arial', 20)
 
 #Create a clock object
 clock = pygame.time.Clock()
-# fps=5
+fps=5
 #
 cnt=1
 
-#sys.exit()
+# time.sleep(5)
+# sys.exit()
 
 
 while True:
-		#print ('in loop',cnt)
-		#cnt +=1
-	# 	if score>3:
-	# 		fps=6
-	# 	elif score>4:
-	# 		fps=7
-	# 	elif score>5:
-	# 		fps=8
-	# 	elif score>6:
-	# 		fps=9
-	# 	elif score>7:
-	# 		fps=10
-	#
+	print ('in loop',cnt)
+	cnt +=1
+	if score>3:
+		fps=6
+	if score>4:
+		fps=7
+	if score>5:
+		fps=8
+	if score>6:
+		fps=9
+	if score>7:
+		fps=10
 
-	clock.tick(5) #Ensures we don't go over 10 FPS
+	print ('fps=',fps)
+
+	clock.tick(fps) #Ensures we don't go over 10 FPS
 
 	for event in pygame.event.get(): #Trap any events
 
@@ -149,7 +149,6 @@ while True:
 
 
 	i = len(xs)-1 #How many segments the snake has on the X axis
-
 	print ('i=',i)
 
 
@@ -168,9 +167,9 @@ while True:
 
 
 
-		#if the snake runs into the apple (good)
-		#args are: first block of snake on the x, x pos of the apple, y pos of the apple
-		# and then the size of width of the snake, width of the apple, height of the snake, height of the apple
+	#if the snake runs into the apple (good)
+	#args are: first block of snake on the x, x pos of the apple, y pos of the apple
+	# and then the size of width of the snake, width of the apple, height of the snake, height of the apple
 	if collide(xs[0], applepos[0], ys[0], applepos[1], SNAKE_WIDTH, APPLE_WIDTH, SNAKE_HEIGHT, APPLE_HEIGHT):
 		score+=1
 		xs.append(700) #Add to the x-length of the snake
