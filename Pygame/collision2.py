@@ -2,6 +2,8 @@
 import pygame
 import sys
 from pygame.locals import *
+import time
+import random
 
 
 pygame.init()
@@ -15,8 +17,14 @@ YELLOW=(255,255,0)
 CYAN=(0,255,255)
 PURPLE=(255,0,255)
 
+COLOR=(WHITE,BLACK,RED,GREEN,BLUE,YELLOW,CYAN,PURPLE)
 
-setDisplay=pygame.display.set_mode((400,300))
+SCREEN_X=800
+SCREEN_Y=600
+
+setDisplay=pygame.display.set_mode((SCREEN_X,SCREEN_Y))
+
+singlePixel=pygame.PixelArray(setDisplay)
 
 while True:
     for event in pygame.event.get():
@@ -24,5 +32,23 @@ while True:
             pygame.quit()
             sys.exit()
 
-    pygame.display.update()
+    while 1:
+            color=COLOR[random.randint(0,7)]
+
+            xpos=random.randint(1,SCREEN_X)
+            ypos=random.randint(1,SCREEN_Y)
+            if xpos >SCREEN_X:
+                    sys.exit()
+            if ypos>SCREEN_Y:
+                    sys.exit()
+
+            print (xpos,ypos)
+
+            singlePixel[ypos][xpos]=color
+            pygame.display.update()
+            time.sleep(.1)
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    sys.exit()
 
