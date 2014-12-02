@@ -40,6 +40,9 @@ def die(screen, score):
 	sys.exit(0)
 
 
+
+
+
 #dirs indicates direction - 0=down, 1=right, 2=up, 3=left
 dirs = 0
 DIRECTION='down'
@@ -47,9 +50,18 @@ DIRECTION='down'
 #Set the score to zero
 score = 0
 
+
+#pygame.mixer.init(44100,-16,2,128)
+pygame.mixer.init()
+
+
 #
 #Initialize pgame
 pygame.init()
+
+#pygame.mixer.music.load('chomp.wav')
+chomp=pygame.mixer.Sound('chomp_short.wav')
+
 
 SCREEN_X=300
 SCREEN_Y=300
@@ -62,7 +74,9 @@ applepos = (random.randint(100,SCREEN_X-100), random.randint(100,SCREEN_Y-100))
 s=pygame.display.set_mode((SCREEN_X,SCREEN_Y))
 
 #Set the caption of the screen
+
 pygame.display.set_caption('Snake')
+
 
 #Surface is the pygame object for representing images
 #Create a 10pxlx10pxl object
@@ -70,7 +84,9 @@ pygame.display.set_caption('Snake')
 APPLE_WIDTH=20
 APPLE_HEIGHT=20
 #appleimage = pygame.Surface((APPLE_WIDTH,APPLE_HEIGHT))
-appleimage=img=pygame.image.load ('apple.png')
+#appleimage=img=pygame.image.load ('apple.png')
+
+appleimage=img=pygame.image.load ('ava_little.png')
 
 #Make it green
 #appleimage.fill((0, 255, 0))
@@ -161,6 +177,7 @@ while True:
 	#args are: first block of snake on the x, x pos of the apple, y pos of the apple
 	# and then the size of width of the snake, width of the apple, height of the snake, height of the apple
 	if collide(xs[0], applepos[0], ys[0], applepos[1], SNAKE_WIDTH, APPLE_WIDTH, SNAKE_HEIGHT, APPLE_HEIGHT):
+		chomp.play()
 		score+=1
 
 		# Add another segment
@@ -180,7 +197,7 @@ while True:
 		xs.append(500) #Add to the x-length of the snake
 		ys.append(500) #Add to the y-length of the snake
 		w,h=appleimage.get_size()
-		appleimage=pygame.transform.scale(appleimage,(w+5,h+5))
+		#appleimage=pygame.transform.scale(appleimage,(w+5,h+5))
 		applepos=(random.randint(0,SCREEN_X-50),random.randint(0,SCREEN_Y-50))
 
 
@@ -245,7 +262,7 @@ while True:
 	#Draw the apple
 	s.blit(appleimage, applepos)
 	t=f.render(str(score), True, (0, 0, 0))
-	s.blit(t, (10, 10))
+	s.blit(t, (SCREEN_X/2, 20))
 
 
 	#Put it all on the screen
