@@ -52,7 +52,7 @@ score = 0
 
 
 #pygame.mixer.init(44100,-16,2,128)
-pygame.mixer.init()
+pygame.mixer.init(11000,0,1,512)
 
 
 #
@@ -86,7 +86,7 @@ APPLE_HEIGHT=20
 #appleimage = pygame.Surface((APPLE_WIDTH,APPLE_HEIGHT))
 #appleimage=img=pygame.image.load ('apple.png')
 
-appleimage=img=pygame.image.load ('ava_little.png')
+appleimage=img=pygame.image.load ('apple.png')
 
 #Make it green
 #appleimage.fill((0, 255, 0))
